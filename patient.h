@@ -4,7 +4,7 @@ struct consultation ;
 typedef struct Date {
     int jour ;
     int mois ;
-    int année;
+    int annee;
 } Date ;
 typedef struct {
     int id ;
