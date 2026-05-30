@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
+#ifndef PATIENT_H
+#define PATIENT_H
 struct consultation ;
 typedef struct Date {
     int jour ;
@@ -20,3 +22,4 @@ typedef struct {
     struct consultation* consultations ;
     int nb_consultations ;
 } patient ;
+#endif

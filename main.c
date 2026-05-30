@@ -12,5 +12,12 @@ int main() {
     inserer_Patient(tableau, &taille);
     while(getchar() != '\n'); // vider le buffer
     rechercher_patient(tableau, taille);
+    supprimer_patient(tableau, &taille);
+    afficher_patient(tableau, taille);
+    modifier_patient(tableau, taille);
+    afficher_patient(tableau, taille);
+    consultation tableau_consultation[100];
+    remplir_consultation(tableau_consultation, taille);
+    afficher_consultation(tableau_consultation, taille);
     return 0;
 }

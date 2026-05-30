@@ -1,4 +1,5 @@
 #include "../projet_LMI2/patient.h"
+#include "../projet_LMI2/consultation.h"
 void remplir_patient(patient tableau[], int taille) {
     for (int i = 0; i < taille; i++) {
         tableau[i].id=i+1;
@@ -82,7 +83,7 @@ void inserer_Patient(patient tableau[], int *taille)
 }
 void rechercher_patient(patient tableau[], int taille) {
     int n;
-printf("Entrez l id : ");
+printf("Entrez l id du patient a rechercher : ");
 scanf("%d", &n);
 int trouver = 0;
 
@@ -90,10 +91,115 @@ for(int i = 0; i < taille; i++) {
     if(n == tableau[i].id) {
         trouver = 1;
         printf("Patient trouver :\n");
+        printf("  ID : %d\n", tableau[i].id);
+        printf("  Prenom : %s\n", tableau[i].prenom);
+        printf("  Nom : %s\n", tableau[i].nom);
+        printf("  Sexe : %c\n", tableau[i].sexe);
+        printf("  Adresse : %s\n", tableau[i].adresse);
+        printf("  Numero de telephone : %s\n", tableau[i].numTel);
+        printf("  age : %d\n", tableau[i].age);
+        printf("  Date de naissance : %d/%d/%d\n", tableau[i].date_naissance.jour, tableau[i].date_naissance.mois, tableau[i].date_naissance.annee);
+        printf("  Poids : %.2f\n", tableau[i].poids);
+        printf("  Taille : %.2f\n", tableau[i].taille);
     }
 }
 
 if(trouver == 0) {
     printf("Patient non trouver\n");
 }
+}
+void supprimer_patient(patient tableau[], int *taille) {
+    int n;
+    int trouver = 0;
+    printf("Entrez l id du patient a supprimer : ");
+    scanf("%d", &n);
+
+    for(int i = 0; i < *taille; i++) {
+        if(n == tableau[i].id) {
+            trouver = 1;
+            tableau[i] = tableau[*taille - 1]; // Remplacer le patient à supprimer par le dernier patient du tableau
+            (*taille)--;
+            printf("Patient supprimer avec succes\n");
+        }
+    }
+
+    if(trouver == 0) {
+        printf("Patient non trouver\n");
+    }
+}
+void modifier_patient(patient tableau[], int taille) {
+    int n;
+    int trouver = 0;
+    printf("Entrez l id du patient a modifier : ");
+    scanf("%d", &n);
+
+    for(int i = 0; i < taille; i++) {
+        if(n == tableau[i].id) {
+            trouver = 1;
+            printf("Entrez les nouvelles informations du patient :\n");
+            printf("Prenom : ");
+            fgets(tableau[i].prenom, 25, stdin);
+            printf("Nom : ");
+            fgets(tableau[i].nom, 25, stdin);
+            printf("Sexe (M/F) : ");
+            scanf(" %c", &tableau[i].sexe);
+            getchar(); // Consommer le caractère de nouvelle ligne après la saisie du sexe
+            printf("Adresse : ");
+            fgets(tableau[i].adresse, 50, stdin);
+            printf("Numero de telephone : ");
+            fgets(tableau[i].numTel,15, stdin);
+            printf("age : ");
+            scanf("%d", &tableau[i].age);
+            getchar(); // Consommer le caractère de nouvelle ligne après la saisie de l'âge
+            printf("Date de naissance (jour mois annee) : ");
+            scanf("%d %d %d", &tableau[i].date_naissance.jour, &tableau[i].date_naissance.mois, &tableau[i].date_naissance.annee);
+            getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la date de naissance
+            printf("Poids : ");
+            scanf("%f", &tableau[i].poids);
+            getchar(); // Consommer le caractère de nouvelle ligne après la saisie du poids
+            printf("Taille : ");
+            scanf("%f", &tableau[i].taille);
+            getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la taille
+            printf("Patient modifier avec succes\n");
+        }
+    }
+
+    if(trouver == 0) {
+        printf("Patient non trouver\n");
+    }
+}
+void remplir_consultation(consultation tableau[], int taille) {
+    for (int i = 0; i < taille; i++) {
+        tableau[i].id = i + 1; // Assigner un ID unique basé sur l'index du tableau
+        printf("Entrez les informations de la consultation %d :\n", i + 1);
+        getchar(); // Consommer le caractère de nouvelle ligne après la saisie de l'ID
+        printf("Date de consultation (jour mois annee) : ");
+        scanf("%d %d %d", &tableau[i].date_consultation.jour, &tableau[i].date_consultation.mois, &tableau[i].date_consultation.annee);
+        getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la date de consultation
+        printf("Medecin : ");
+        fgets(tableau[i].medecin, 25, stdin);
+        printf("Diagnostic : ");
+        fgets(tableau[i].diagnostic, 100, stdin);
+        printf("Traitement : ");
+        fgets(tableau[i].traitement, 100, stdin);
+        printf("Duree (en jours) : ");
+        scanf("%d", &tableau[i].duree);
+        getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la durée
+        printf("Cout : ");
+        scanf("%f", &tableau[i].cout);
+        getchar(); // Consommer le caractère de nouvelle ligne après la saisie du coût
+    }
+}
+void afficher_consultation(consultation tableau[], int taille) {
+    printf("\nInformations des consultations :\n");
+    for (int i = 0; i < taille; i++) {
+        printf("Consultation %d :\n", i + 1);
+        printf("  ID : %d\n", tableau[i].id);
+        printf("  Date de consultation : %d/%d/%d\n", tableau[i].date_consultation.jour, tableau[i].date_consultation.mois, tableau[i].date_consultation.annee);
+        printf("  Medecin : %s\n", tableau[i].medecin);
+        printf("  Diagnostic : %s\n", tableau[i].diagnostic);
+        printf("  Traitement : %s\n", tableau[i].traitement);
+        printf("  Duree : %d jours\n", tableau[i].duree);
+        printf("  Cout : %.2f\n", tableau[i].cout);
+    }
 }
