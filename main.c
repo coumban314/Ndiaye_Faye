@@ -19,5 +19,11 @@ int main() {
     consultation tableau_consultation[100];
     remplir_consultation(tableau_consultation, taille);
     afficher_consultation(tableau_consultation, taille);
+    inserer_consultation(tableau_consultation, &taille);
+    rechercher_consultation(tableau_consultation, taille);
+    suppprimer_consultation(tableau_consultation, &taille);
+    afficher_consultation(tableau_consultation, taille);
+    modifier_consultation(tableau_consultation, taille);
+    afficher_consultation(tableau_consultation, taille);
     return 0;
 }

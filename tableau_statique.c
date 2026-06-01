@@ -203,3 +203,105 @@ void afficher_consultation(consultation tableau[], int taille) {
         printf("  Cout : %.2f\n", tableau[i].cout);
     }
 }
+void inserer_consultation(consultation tableau[], int *taille) {
+    if(*taille >= 100) {
+        printf("Tableau plein!\n");
+        return;
+    }
+    printf("Entrez les informations de la consultation a ajouter :\n");
+    tableau[*taille].id = *taille + 1; // Assigner un ID unique basé sur la taille actuelle du tableau
+    getchar(); // Consommer le caractère de nouvelle ligne après la saisie de l'ID
+    printf("Date de consultation (jour mois annee) : ");
+    scanf("%d %d %d", &tableau[*taille].date_consultation.jour, &tableau[*taille].date_consultation.mois, &tableau[*taille].date_consultation.annee);
+    getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la date de consultation
+    printf("Medecin : ");
+    fgets(tableau[*taille].medecin, 25, stdin);
+    printf("Diagnostic : ");
+    fgets(tableau[*taille].diagnostic, 100, stdin);
+    printf("Traitement : ");
+    fgets(tableau[*taille].traitement, 100, stdin);
+    printf("Duree (en jours) : ");
+    scanf("%d", &tableau[*taille].duree);
+    getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la durée
+    printf("Cout : ");
+    scanf("%f", &tableau[*taille].cout);
+    getchar(); // Consommer le caractère de nouvelle ligne après la saisie du coût
+    printf("Consultation ajouter avec succes\n");
+    (*taille)++; // Incrémenter la taille du tableau
+}
+void rechercher_consultation(consultation tableau[], int taille) {
+    int n;
+    printf("Entrez l id de la consultation a rechercher : ");
+    scanf("%d", &n);
+    int trouver = 0;
+
+    for(int i = 0; i < taille; i++) {
+        if(n == tableau[i].id) {
+            trouver = 1;
+            printf("Consultation trouver :\n");
+            printf("  ID : %d\n", tableau[i].id);
+            printf("  Date de consultation : %d/%d/%d\n", tableau[i].date_consultation.jour, tableau[i].date_consultation.mois, tableau[i].date_consultation.annee);
+            printf("  Medecin : %s\n", tableau[i].medecin);
+            printf("  Diagnostic : %s\n", tableau[i].diagnostic);
+            printf("  Traitement : %s\n", tableau[i].traitement);
+            printf("  Duree : %d jours\n", tableau[i].duree);
+            printf("  Cout : %.2f\n", tableau[i].cout);
+        }
+    }
+
+    if(trouver == 0) {
+        printf("Consultation non trouver\n");
+    }
+}
+void supprimer_consultation(consultation tableau[], int *taille) {
+    int n;
+    int trouver = 0;
+    printf("Entrez l id de la consultation a supprimer : ");
+    scanf("%d", &n);
+
+    for(int i = 0; i < *taille; i++) {
+        if(n == tableau[i].id) {
+            trouver = 1;
+            tableau[i] = tableau[*taille - 1]; // Remplacer la consultation à supprimer par la dernière consultation du tableau
+            (*taille)--;
+            printf("Consultation supprimer avec succes\n");
+        }
+    }
+
+    if(trouver == 0) {
+        printf("Consultation non trouver\n");
+    }
+}
+void modifier_consultation(consultation tableau[], int taille) {
+    int n;
+    printf("Entrez l id de la consultation a modifier : ");
+    scanf("%d", &n);
+    int trouver = 0;
+
+    for(int i = 0; i < taille; i++) {
+        if(n == tableau[i].id) {
+            trouver = 1;
+            printf("Entrez les nouvelles informations de la consultation :\n");
+            printf("Date de consultation (jour mois annee) : ");
+            scanf("%d %d %d", &tableau[i].date_consultation.jour, &tableau[i].date_consultation.mois, &tableau[i].date_consultation.annee);
+            getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la date de consultation
+            printf("Medecin : ");
+            fgets(tableau[i].medecin, 25, stdin);
+            printf("Diagnostic : ");
+            fgets(tableau[i].diagnostic, 100, stdin);
+            printf("Traitement : ");
+            fgets(tableau[i].traitement, 100, stdin);
+            printf("Duree (en jours) : ");
+            scanf("%d", &tableau[i].duree);
+            getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la durée
+            printf("Cout : ");
+            scanf("%f", &tableau[i].cout);
+            getchar(); // Consommer le caractère de nouvelle ligne après la saisie du coût
+            printf("Consultation modifier avec succes\n");
+        }
+    }
+
+    if(trouver == 0) {
+        printf("Consultation non trouver\n");
+    }
+}
