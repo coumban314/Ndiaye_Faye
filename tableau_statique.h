@@ -11,6 +11,6 @@ void remplir_consultation(consultation tableau[], int taille);
 void afficher_consultation(consultation tableau[], int taille);
 void inserer_consultation(consultation tableau[], int *n);
 void rechercher_consultation(consultation tableau[], int taille);
-void suppprimer_consultation(consultation tableau[], int *taille);
+void supprimer_consultation(consultation tableau[], int *taille);
 void afficher_consultation(consultation tableau[], int taille);
 void modifier_consultation(consultation tableau[], int taille);
