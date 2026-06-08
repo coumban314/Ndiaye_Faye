@@ -1,4 +1,5 @@
 #include "../projet_LMI2/tableau_statique.h"
+#include "tableau_dynamique.h"
 int main() {
     int taille;
     do {
@@ -25,5 +26,14 @@ int main() {
     afficher_consultation(tableau_consultation, taille);
     modifier_consultation(tableau_consultation, taille);
     afficher_consultation(tableau_consultation, taille);
+    patient *tab;
+    int T = 0;
+    int capacite = 2;
+    tab = malloc(capacite * sizeof(patient));
+    inserer_patient_dyn(&tab, &T, &capacite);
+    afficher_patient_dyn(tab, T);
+    rechercher_patient_dyn(tab, T);
+    supprimer_patient_dyn(&tab, &T);
+    modifier_patient_dyn(tab, T);
     return 0;
 }
