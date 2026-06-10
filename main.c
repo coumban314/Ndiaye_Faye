@@ -13,9 +13,23 @@ int main() {
     inserer_Patient(tableau, &taille);
     while(getchar() != '\n'); // vider le buffer
     rechercher_patient(tableau, taille);
+    int min, max;
+    printf("Âge minimum : "); 
+    scanf("%d", &min);
+    printf("Âge maximum : "); 
+    scanf("%d", &max);
+    recherche_par_intervalle(tableau, taille, min, max);
+    char prefixe[50];
+   printf("Entrez le début du nom : ");
+   scanf("%s", prefixe);
+    recherche_par_prefixe(tableau, taille, prefixe);
     supprimer_patient(tableau, &taille);
     afficher_patient(tableau, taille);
     modifier_patient(tableau, taille);
+    afficher_patient(tableau, taille);
+    tri_insertion_nom(tableau, taille);
+    afficher_patient(tableau, taille);
+    tri_rapide_age(tableau, 0, taille - 1);
     afficher_patient(tableau, taille);
     consultation tableau_consultation[100];
     remplir_consultation(tableau_consultation, taille);
@@ -34,6 +48,18 @@ int main() {
     afficher_patient_dyn(tab, T);
     rechercher_patient_dyn(tab, T);
     supprimer_patient_dyn(&tab, &T);
+    afficher_patient_dyn(tab, T);
     modifier_patient_dyn(tab, T);
-    return 0;
+    afficher_patient_dyn(tab, T);
+    int taille_consultation = 0;
+    int capacite_consultation = 2;
+    consultation *T = malloc(capacite_consultation * sizeof(consultation));
+    inserer_consultation_dyn(&T, &taille_consultation, &capacite_consultation);
+    afficher_consultation_dyn(T, taille_consultation);
+    rechercher_consultation_dyn(T, taille_consultation);
+    supprimer_consultation_dyn(&T, &taille_consultation);
+    afficher_consultation_dyn(T, taille_consultation);
+    modifier_consultation_dyn(T, taille_consultation);
+    afficher_consultation_dyn(T, taille_consultation);
+
 }

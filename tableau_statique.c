@@ -108,6 +108,33 @@ if(trouver == 0) {
     printf("Patient non trouver\n");
 }
 }
+
+void recherche_par_intervalle(patient tableau[], int taille, int age_min, int age_max) {
+    int trouve = 0;
+    for (int i = 0; i < taille; i++) {
+        if (tableau[i].age >= age_min && tableau[i].age <= age_max) {
+            afficher_un_patient(tableau[i]);
+            trouve = 1;
+        }
+    }
+    if (!trouve)
+        printf("Aucun patient trouvé.\n");
+}
+void recherche_par_prefixe(patient tableau[], int taille, const char* prefixe) {
+    int trouve = 0;
+    printf("\nPatients dont le nom commence par \"%s\" :\n", prefixe);
+
+    for (int i = 0; i < taille; i++) {
+        // strncmp compare les N premiers caractères
+        if (strncmp(tableau[i].nom, prefixe, strlen(prefixe)) == 0) {
+            afficher_un_patient(tableau[i]);
+            trouve = 1;
+        }
+    }
+
+    if (!trouve)
+        printf("Aucun patient trouvé.\n");
+}
 void supprimer_patient(patient tableau[], int *taille) {
     int n;
     int trouver = 0;
@@ -163,6 +190,30 @@ void modifier_patient(patient tableau[], int taille) {
             printf("Patient modifier avec succes\n");
         }
     }
+    int partition(patient tableau[], int bas, int haut) {
+    int pivot = tableau[haut].age;
+    int i = bas - 1;
+    for (int j = bas; j < haut; j++) {
+        if (tableau[j].age <= pivot) {
+            i++;
+            patient temp = tableau[i];
+            tableau[i] = tableau[j];
+            tableau[j] = temp;
+        }
+    }
+    patient temp = tableau[i + 1];
+    tableau[i + 1] = tableau[haut];
+    tableau[haut] = temp;
+    return i + 1;
+}
+
+void tri_rapide_age(patient tableau[], int bas, int haut) {
+    if (bas < haut) {
+        int pivot = partition(tableau, bas, haut);
+        tri_rapide_age(tableau, bas, pivot - 1);
+        tri_rapide_age(tableau, pivot + 1, haut);
+    }
+}
 
     if(trouver == 0) {
         printf("Patient non trouver\n");
