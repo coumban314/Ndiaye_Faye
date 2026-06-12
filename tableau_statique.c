@@ -190,6 +190,7 @@ void modifier_patient(patient tableau[], int taille) {
             printf("Patient modifier avec succes\n");
         }
     }
+}
     int partition(patient tableau[], int bas, int haut) {
     int pivot = tableau[haut].age;
     int i = bas - 1;
@@ -199,26 +200,110 @@ void modifier_patient(patient tableau[], int taille) {
             patient temp = tableau[i];
             tableau[i] = tableau[j];
             tableau[j] = temp;
-        }
+        
     }
     patient temp = tableau[i + 1];
     tableau[i + 1] = tableau[haut];
     tableau[haut] = temp;
     return i + 1;
 }
+    }
 
 void tri_rapide_age(patient tableau[], int bas, int haut) {
+    int trouver = 0;
     if (bas < haut) {
         int pivot = partition(tableau, bas, haut);
         tri_rapide_age(tableau, bas, pivot - 1);
         tri_rapide_age(tableau, pivot + 1, haut);
     }
-}
+
 
     if(trouver == 0) {
         printf("Patient non trouver\n");
     }
 }
+// 1. Minimum
+int minimum_age(patient tableau[], int taille) {
+    int min = tableau[0].age;
+    for (int i = 1; i < taille; i++)
+        if (tableau[i].age < min)
+            min = tableau[i].age;
+    return min;
+}
+
+// 2. Maximum
+int maximum_age(patient tableau[], int taille) {
+    int max = tableau[0].age;
+    for (int i = 1; i < taille; i++)
+        if (tableau[i].age > max)
+            max = tableau[i].age;
+    return max;
+}
+
+// 3. Moyenne
+float moyenne_age(patient tableau[], int taille) {
+    float somme = 0;
+    for (int i = 0; i < taille; i++)
+        somme += tableau[i].age;
+    return somme / taille;
+}
+
+// 4. Médiane
+float mediane_age(patient tableau[], int taille) {
+    patient copie[100];
+    for (int i = 0; i < taille; i++)
+        copie[i] = tableau[i];
+    tri_insertion_nom(copie, taille);
+    if (taille % 2 == 0)
+        return (copie[taille/2 - 1].age + copie[taille/2].age) / 2.0;
+    else
+        return copie[taille/2].age;
+}
+
+// 5. Écart-type
+float ecart_type_age(patient tableau[], int taille) {
+    float moy = moyenne_age(tableau, taille);
+    float somme = 0;
+    for (int i = 0; i < taille; i++)
+        somme += (tableau[i].age - moy) * (tableau[i].age - moy);
+    return sqrt(somme / taille);
+}
+
+// 6. Affichage de tout
+void afficher_agregations(patient tableau[], int taille) {
+    printf("\n Agrégations statistiques (age)\n");
+    printf("Minimum    : %d\n",   minimum_age(tableau, taille));
+    printf("Maximum    : %d\n",   maximum_age(tableau, taille));
+    printf("Moyenne    : %.2f\n", moyenne_age(tableau, taille));
+    printf("Mediane    : %.2f\n", mediane_age(tableau, taille));
+    printf("Ecart-type : %.2f\n", ecart_type_age(tableau, taille));
+}
+// Sauvegarde patients
+void sauvegarder_patients(patient tableau[], int taille, const char* fichier) {
+    FILE* f = fopen(fichier, "wb"); // wb = write binary
+    if (f == NULL) {
+        printf("Erreur ouverture fichier.\n");
+        return;
+    }
+    fwrite(&taille, sizeof(int), 1, f);          // on sauvegarde la taille
+    fwrite(tableau, sizeof(patient), taille, f); // on sauvegarde les données
+    fclose(f);
+    printf("Patients sauvegardés dans %s.\n", fichier);
+}
+
+// Chargement patients
+void charger_patients(patient tableau[], int* taille, const char* fichier) {
+    FILE* f = fopen(fichier, "rb"); // rb = read binary
+    if (f == NULL) {
+        printf("Erreur ouverture fichier.\n");
+        return;
+    }
+    fread(taille, sizeof(int), 1, f);           // on relit la taille
+    fread(tableau, sizeof(patient), *taille, f); // on relit les données
+    fclose(f);
+    printf("Patients chargés depuis %s.\n", fichier);
+}
+
 void remplir_consultation(consultation tableau[], int taille) {
     for (int i = 0; i < taille; i++) {
         tableau[i].id = i + 1; // Assigner un ID unique basé sur l'index du tableau
@@ -254,6 +339,15 @@ void afficher_consultation(consultation tableau[], int taille) {
         printf("  Cout : %.2f\n", tableau[i].cout);
     }
 }
+void afficher_une_consultation(consultation c) {
+    printf("  ID : %d\n", c.id);
+    printf("  Date : %d/%d/%d\n", c.date_consultation.jour, c.date_consultation.mois, c.date_consultation.annee);
+    printf("  Medecin : %s\n", c.medecin);
+    printf("  Diagnostic : %s\n", c.diagnostic);
+    printf("  Traitement : %s\n", c.traitement);
+    printf("  Duree : %d jours\n", c.duree);
+    printf("  Cout : %.2f\n", c.cout);
+}
 void inserer_consultation(consultation tableau[], int *taille) {
     if(*taille >= 100) {
         printf("Tableau plein!\n");
@@ -280,6 +374,42 @@ void inserer_consultation(consultation tableau[], int *taille) {
     printf("Consultation ajouter avec succes\n");
     (*taille)++; // Incrémenter la taille du tableau
 }
+void tri_insertion_medecin(consultation tableau[], int taille) {
+    for (int i = 1; i < taille; i++) {
+        consultation cle = tableau[i];
+        int j = i - 1;
+        while (j >= 0 && strcmp(tableau[j].medecin, cle.medecin) > 0) {
+            tableau[j + 1] = tableau[j];
+            j--;
+        }
+        tableau[j + 1] = cle;
+    }
+    printf("Consultations triees par medecin.\n");
+}
+int partition_consultation(consultation tableau[], int bas, int haut) {
+    float pivot = tableau[haut].cout;
+    int i = bas - 1;
+    for (int j = bas; j < haut; j++) {
+        if (tableau[j].cout <= pivot) {
+            i++;
+            consultation temp = tableau[i];
+            tableau[i] = tableau[j];
+            tableau[j] = temp;
+        }
+    }
+    consultation temp = tableau[i + 1];
+    tableau[i + 1] = tableau[haut];
+    tableau[haut] = temp;
+    return i + 1;
+}
+
+void tri_rapide_cout(consultation tableau[], int bas, int haut) {
+    if (bas < haut) {
+        int pivot = partition_consultation(tableau, bas, haut);
+        tri_rapide_cout(tableau, bas, pivot - 1);
+        tri_rapide_cout(tableau, pivot + 1, haut);
+    }
+}
 void rechercher_consultation(consultation tableau[], int taille) {
     int n;
     printf("Entrez l id de la consultation a rechercher : ");
@@ -304,6 +434,31 @@ void rechercher_consultation(consultation tableau[], int taille) {
         printf("Consultation non trouver\n");
     }
 }
+void recherche_par_intervalle_consultation(consultation tableau[], int taille, float cout_min, float cout_max) {
+    int trouve = 0;
+    printf("\nConsultations entre %.2f et %.2f :\n", cout_min, cout_max);
+    for (int i = 0; i < taille; i++) {
+        if (tableau[i].cout >= cout_min && tableau[i].cout <= cout_max) {
+            afficher_une_consultation(tableau[i]);
+            trouve = 1;
+        }
+    }
+    if (!trouve)
+        printf("Aucune consultation trouvee.\n");
+}
+void recherche_par_prefixe_consultation(consultation tableau[], int taille, const char* prefixe) {
+    int trouve = 0;
+    printf("\nConsultations dont le medecin commence par \"%s\" :\n", prefixe);
+    for (int i = 0; i < taille; i++) {
+        if (strncmp(tableau[i].medecin, prefixe, strlen(prefixe)) == 0) {
+            afficher_une_consultation(tableau[i]);
+            trouve = 1;
+        }
+    }
+    if (!trouve)
+        printf("Aucune consultation trouvee.\n");
+}
+
 void supprimer_consultation(consultation tableau[], int *taille) {
     int n;
     int trouver = 0;
@@ -347,12 +502,85 @@ void modifier_consultation(consultation tableau[], int taille) {
             getchar(); // Consommer le caractère de nouvelle ligne après la saisie de la durée
             printf("Cout : ");
             scanf("%f", &tableau[i].cout);
-            getchar(); // Consommer le caractère de nouvelle ligne après la saisie du coût
             printf("Consultation modifier avec succes\n");
+            break; // Sortir de la boucle après avoir trouvé et modifié la consultation
         }
     }
 
     if(trouver == 0) {
         printf("Consultation non trouver\n");
     }
+}
+float minimum_cout(consultation tableau[], int taille) {
+    float min = tableau[0].cout;
+    for (int i = 1; i < taille; i++)
+        if (tableau[i].cout < min)
+            min = tableau[i].cout;
+    return min;
+}
+
+float maximum_cout(consultation tableau[], int taille) {
+    float max = tableau[0].cout;
+    for (int i = 1; i < taille; i++)
+        if (tableau[i].cout > max)
+            max = tableau[i].cout;
+    return max;
+}
+
+float moyenne_cout(consultation tableau[], int taille) {
+    float somme = 0;
+    for (int i = 0; i < taille; i++)
+        somme += tableau[i].cout;
+    return somme / taille;
+}
+
+float mediane_cout(consultation tableau[], int taille) {
+    consultation copie[100];
+    for (int i = 0; i < taille; i++)
+        copie[i] = tableau[i];
+    tri_insertion_medecin(copie, taille);
+    if (taille % 2 == 0)
+        return (copie[taille/2 - 1].cout + copie[taille/2].cout) / 2.0;
+    else
+        return copie[taille/2].cout;
+}
+
+float ecart_type_cout(consultation tableau[], int taille) {
+    float moy = moyenne_cout(tableau, taille);
+    float somme = 0;
+    for (int i = 0; i < taille; i++)
+        somme += (tableau[i].cout - moy) * (tableau[i].cout - moy);
+    return sqrt(somme / taille);
+}
+
+void afficher_agregations_consultation(consultation tableau[], int taille) {
+    printf("\n=== Agregations statistiques (cout) ===\n");
+    printf("Minimum    : %.2f\n", minimum_cout(tableau, taille));
+    printf("Maximum    : %.2f\n", maximum_cout(tableau, taille));
+    printf("Moyenne    : %.2f\n", moyenne_cout(tableau, taille));
+    printf("Mediane    : %.2f\n", mediane_cout(tableau, taille));
+    printf("Ecart-type : %.2f\n", ecart_type_cout(tableau, taille));
+}
+void sauvegarder_consultations(consultation tableau[], int taille, const char* fichier) {
+    FILE* f = fopen(fichier, "wb");
+    if (f == NULL) {
+        printf("Erreur ouverture fichier.\n");
+        return;
+    }
+    fwrite(&taille, sizeof(int), 1, f);
+    fwrite(tableau, sizeof(consultation), taille, f);
+    fclose(f);
+    printf("Consultations sauvegardees dans %s.\n", fichier);
+}
+
+void charger_consultations(consultation tableau[], int* taille, const char* fichier) {
+    FILE* f = fopen(fichier, "rb");
+    if (f == NULL) {
+        printf("Erreur ouverture fichier.\n");
+        return;
+    }
+    fread(taille, sizeof(int), 1, f);
+    fread(tableau, sizeof(consultation), *taille, f);
+    fclose(f);
+    printf("Consultations chargees depuis %s.\n", fichier);
 }

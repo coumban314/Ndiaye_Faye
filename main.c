@@ -31,10 +31,19 @@ int main() {
     afficher_patient(tableau, taille);
     tri_rapide_age(tableau, 0, taille - 1);
     afficher_patient(tableau, taille);
+    afficher_agregations(tableau, taille);
+    sauvegarder_patients(tableau, taille, "patients.bin");
+    charger_patients(tableau, &taille, "patients.bin");
+    afficher_patient(tableau, taille);
     consultation tableau_consultation[100];
     remplir_consultation(tableau_consultation, taille);
     afficher_consultation(tableau_consultation, taille);
     inserer_consultation(tableau_consultation, &taille);
+    afficher_consultation(tableau_consultation, taille);
+    tri_insertion_medecin(tableau_consultation, taille);
+    afficher_consultation(tableau_consultation, taille);
+    tri_rapide_cout(tableau_consultation, 0, taille - 1);
+    afficher_consultation(tableau_consultation, taille);
     rechercher_consultation(tableau_consultation, taille);
     supprimer_consultation(tableau_consultation, &taille);
     afficher_consultation(tableau_consultation, taille);
@@ -57,9 +66,14 @@ int main() {
     inserer_consultation_dyn(&T, &taille_consultation, &capacite_consultation);
     afficher_consultation_dyn(T, taille_consultation);
     rechercher_consultation_dyn(T, taille_consultation);
+    recherche_par_intervalle_consultation_dyn(T, taille_consultation, 100.0, 500.0);
+    recherche_par_prefixe_consultation_dyn(T, taille_consultation, "Dr.");
     supprimer_consultation_dyn(&T, &taille_consultation);
     afficher_consultation_dyn(T, taille_consultation);
     modifier_consultation_dyn(T, taille_consultation);
     afficher_consultation_dyn(T, taille_consultation);
-
+    afficher_agregations_consultation(tableau_consultation, taille);
+sauvegarder_consultations(tableau_consultation, taille, "consultations.bin");
+charger_consultations(tableau_consultation, &taille, "consultations.bin");
+afficher_consultation(tableau_consultation, taille);
 }
