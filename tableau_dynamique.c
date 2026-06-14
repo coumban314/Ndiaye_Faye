@@ -36,6 +36,43 @@ void inserer_patient_dyn(patient **tableau, int *taille, int *capacite) {
     (*tableau)[*taille].nb_consultations = 0;
     (*taille)++;
 }
+void tri_insertion_nom_dyn(patient *tableau, int taille) {
+    for (int i = 1; i < taille; i++) {
+        patient cle = tableau[i];
+        int j = i - 1;
+        while (j >= 0 && strcmp(tableau[j].nom, cle.nom) > 0) {
+            tableau[j + 1] = tableau[j];
+            j--;
+        }
+        tableau[j + 1] = cle;
+    }
+    printf("Patients tries par nom.\n");
+}
+
+int partition_dyn(patient *tableau, int bas, int haut) {
+    int pivot = tableau[haut].age;
+    int i = bas - 1;
+    for (int j = bas; j < haut; j++) {
+        if (tableau[j].age <= pivot) {
+            i++;
+            patient temp = tableau[i];
+            tableau[i] = tableau[j];
+            tableau[j] = temp;
+        }
+    }
+    patient temp = tableau[i + 1];
+    tableau[i + 1] = tableau[haut];
+    tableau[haut] = temp;
+    return i + 1;
+}
+
+void tri_rapide_age_dyn(patient *tableau, int bas, int haut) {
+    if (bas < haut) {
+        int pivot = partition_dyn(tableau, bas, haut);
+        tri_rapide_age_dyn(tableau, bas, pivot - 1);
+        tri_rapide_age_dyn(tableau, pivot + 1, haut);
+    }
+}
 void afficher_patient_dyn(patient *tableau, int taille) {
     printf("\nInformations des patients :\n");
     for (int i = 0; i < taille; i++) {
@@ -75,6 +112,37 @@ void afficher_patient_dyn(patient *tableau, int taille) {
     }
     printf("Patient non trouve.\n");
 }
+void recherche_par_intervalle_patient_dyn(patient *tableau, int taille, int age_min, int age_max) {
+    int trouve = 0;
+    printf("\nPatients dont l'age est entre %d et %d ans :\n", age_min, age_max);
+    for (int i = 0; i < taille; i++) {
+        if (tableau[i].age >= age_min && tableau[i].age <= age_max) {
+            printf("  ID : %d\n", tableau[i].id);
+            printf("  Prenom : %s\n", tableau[i].prenom);
+            printf("  Nom : %s\n", tableau[i].nom);
+            printf("  Age : %d\n", tableau[i].age);
+            trouve = 1;
+        }
+    }
+    if (!trouve)
+        printf("Aucun patient trouve.\n");
+}
+void recherche_par_prefixe_patient_dyn(patient *tableau, int taille, const char* prefixe) {
+    int trouve = 0;
+    printf("\nPatients dont le nom commence par \"%s\" :\n", prefixe);
+    for (int i = 0; i < taille; i++) {
+        if (strncmp(tableau[i].nom, prefixe, strlen(prefixe)) == 0) {
+            printf("  ID : %d\n", tableau[i].id);
+            printf("  Prenom : %s\n", tableau[i].prenom);
+            printf("  Nom : %s\n", tableau[i].nom);
+            printf("  Age : %d\n", tableau[i].age);
+            trouve = 1;
+        }
+    }
+    if (!trouve)
+        printf("Aucun patient trouve.\n");
+}
+
 void supprimer_patient_dyn(patient **tableau, int *taille) {
     int n;
     printf("Entrez l'ID du patient a supprimer : ");
@@ -128,7 +196,75 @@ void modifier_patient_dyn(patient *tableau, int taille) {
     }
     printf("Patient non trouve.\n");
 }
- void inserer_consultation_dyn(consultation **tableau, int *taille, int *capacite) {
+int minimum_age_dyn(patient *tableau, int taille) {
+    int min = tableau[0].age;
+    for (int i = 1; i < taille; i++)
+        if (tableau[i].age < min)
+            min = tableau[i].age;
+    return min;
+}
+
+int maximum_age_dyn(patient *tableau, int taille) {
+    int max = tableau[0].age;
+    for (int i = 1; i < taille; i++)
+        if (tableau[i].age > max)
+            max = tableau[i].age;
+    return max;
+}
+
+float moyenne_age_dyn(patient *tableau, int taille) {
+    float somme = 0;
+    for (int i = 0; i < taille; i++)
+        somme += tableau[i].age;
+    return somme / taille;
+}
+
+float mediane_age_dyn(patient *tableau, int taille) {
+    patient *copie = malloc(taille * sizeof(patient));
+    for (int i = 0; i < taille; i++)
+        copie[i] = tableau[i];
+    tri_insertion_nom_dyn(copie, taille);
+    float result;
+    if (taille % 2 == 0)
+        result = (copie[taille/2 - 1].age + copie[taille/2].age) / 2.0;
+    else
+        result = copie[taille/2].age;
+    free(copie);
+    return result;
+}
+
+float ecart_type_age_dyn(patient *tableau, int taille) {
+    float moy = moyenne_age_dyn(tableau, taille);
+    float somme = 0;
+    for (int i = 0; i < taille; i++)
+        somme += (tableau[i].age - moy) * (tableau[i].age - moy);
+    return sqrt(somme / taille);
+}
+void sauvegarder_patients_dyn(patient *tableau, int taille, const char* fichier) {
+    FILE* f = fopen(fichier, "wb");
+    if (f == NULL) {
+        printf("Erreur ouverture fichier.\n");
+        return;
+    }
+    fwrite(&taille, sizeof(int), 1, f);
+    fwrite(tableau, sizeof(patient), taille, f);
+    fclose(f);
+    printf("Patients sauvegardes dans %s.\n", fichier);
+}
+
+void charger_patients_dyn(patient **tableau, int* taille, const char* fichier) {
+    FILE* f = fopen(fichier, "rb");
+    if (f == NULL) {
+        printf("Erreur ouverture fichier.\n");
+        return;
+    }
+    fread(taille, sizeof(int), 1, f);
+    *tableau = realloc(*tableau, (*taille) * sizeof(patient));
+    fread(*tableau, sizeof(patient), *taille, f);
+    fclose(f);
+    printf("Patients charges depuis %s.\n", fichier);
+}
+void inserer_consultation_dyn(consultation **tableau, int *taille, int *capacite) {
     if(*taille >= *capacite) {
         *capacite *= 2; // Doubler la capacité du tableau
         *tableau = realloc(*tableau, (*capacite) * sizeof(consultation));
@@ -155,6 +291,43 @@ void modifier_patient_dyn(patient *tableau, int taille) {
     scanf("%f", &(*tableau)[*taille].cout);
     getchar(); // Consommer le caractère de nouvelle ligne après la saisie du coût
     (*taille)++;
+}
+void tri_insertion_medecin_dyn(consultation *tableau, int taille) {
+    for (int i = 1; i < taille; i++) {
+        consultation cle = tableau[i];
+        int j = i - 1;
+        while (j >= 0 && strcmp(tableau[j].medecin, cle.medecin) > 0) {
+            tableau[j + 1] = tableau[j];
+            j--;
+        }
+        tableau[j + 1] = cle;
+    }
+    printf("Consultations triees par medecin.\n");
+}
+
+int partition_consultation_dyn(consultation *tableau, int bas, int haut) {
+    float pivot = tableau[haut].cout;
+    int i = bas - 1;
+    for (int j = bas; j < haut; j++) {
+        if (tableau[j].cout <= pivot) {
+            i++;
+            consultation temp = tableau[i];
+            tableau[i] = tableau[j];
+            tableau[j] = temp;
+        }
+    }
+    consultation temp = tableau[i + 1];
+    tableau[i + 1] = tableau[haut];
+    tableau[haut] = temp;
+    return i + 1;
+}
+
+void tri_rapide_cout_dyn(consultation *tableau, int bas, int haut) {
+    if (bas < haut) {
+        int pivot = partition_consultation_dyn(tableau, bas, haut);
+        tri_rapide_cout_dyn(tableau, bas, pivot - 1);
+        tri_rapide_cout_dyn(tableau, pivot + 1, haut);
+    }
 }
 void afficher_consultation_dyn(consultation *tableau, int taille) {
     printf("\nInformations des consultations :\n");
@@ -233,4 +406,81 @@ void modifier_consultation_dyn(consultation *tableau, int taille) {
         }
     }
     printf("Consultation non trouve.\n");
+}
+float minimum_cout_dyn(consultation *tableau, int taille) {
+    float min = tableau[0].cout;
+    for (int i = 1; i < taille; i++)
+        if (tableau[i].cout < min)
+            min = tableau[i].cout;
+    return min;
+}
+
+float maximum_cout_dyn(consultation *tableau, int taille) {
+    float max = tableau[0].cout;
+    for (int i = 1; i < taille; i++)
+        if (tableau[i].cout > max)
+            max = tableau[i].cout;
+    return max;
+}
+
+float moyenne_cout_dyn(consultation *tableau, int taille) {
+    float somme = 0;
+    for (int i = 0; i < taille; i++)
+        somme += tableau[i].cout;
+    return somme / taille;
+}
+
+float mediane_cout_dyn(consultation *tableau, int taille) {
+    consultation *copie = malloc(taille * sizeof(consultation));
+    for (int i = 0; i < taille; i++)
+        copie[i] = tableau[i];
+    tri_insertion_medecin_dyn(copie, taille);
+    float result;
+    if (taille % 2 == 0)
+        result = (copie[taille/2 - 1].cout + copie[taille/2].cout) / 2.0;
+    else
+        result = copie[taille/2].cout;
+    free(copie);
+    return result;
+}
+
+float ecart_type_cout_dyn(consultation *tableau, int taille) {
+    float moy = moyenne_cout_dyn(tableau, taille);
+    float somme = 0;
+    for (int i = 0; i < taille; i++)
+        somme += (tableau[i].cout - moy) * (tableau[i].cout - moy);
+    return sqrt(somme / taille);
+}
+
+void afficher_agregations_consultation_dyn(consultation *tableau, int taille) {
+    printf("\n=== Agregations statistiques (cout) ===\n");
+    printf("Minimum    : %.2f\n", minimum_cout_dyn(tableau, taille));
+    printf("Maximum    : %.2f\n", maximum_cout_dyn(tableau, taille));
+    printf("Moyenne    : %.2f\n", moyenne_cout_dyn(tableau, taille));
+    printf("Mediane    : %.2f\n", mediane_cout_dyn(tableau, taille));
+    printf("Ecart-type : %.2f\n", ecart_type_cout_dyn(tableau, taille));
+}
+void sauvegarder_consultations_dyn(consultation *tableau, int taille, const char* fichier) {
+    FILE* f = fopen(fichier, "wb");
+    if (f == NULL) {
+        printf("Erreur ouverture fichier.\n");
+        return;
+    }
+    fwrite(&taille, sizeof(int), 1, f);
+    fwrite(tableau, sizeof(consultation), taille, f);
+    fclose(f);
+    printf("Consultations sauvegardees dans %s.\n", fichier);
+}
+
+void charger_consultations_dyn(consultation **tableau, int* taille, const char* fichier) {
+    FILE* f = fopen(fichier, "rb");
+    if (f == NULL) {
+        printf("Erreur ouverture fichier.\n");
+        return;
+    }
+    fread(taille, sizeof(int), 1, f);
+    *tableau = realloc(*tableau, (*taille) * sizeof(consultation));
+    fread(*tableau, sizeof(consultation), *taille, f);
+    fclose(f);
+    printf("Consultations chargees depuis %s.\n", fichier);
 }
