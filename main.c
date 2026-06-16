@@ -10,6 +10,7 @@ int main() {
     patient tableau[100];
     remplir_patient(tableau, taille);
     afficher_patient(tableau, taille);
+    afficher_un_patient(tableau[0]);
     inserer_Patient(tableau, &taille);
     while(getchar() != '\n'); // vider le buffer
     rechercher_patient(tableau, taille);
@@ -26,6 +27,7 @@ int main() {
     supprimer_patient(tableau, &taille);
     afficher_patient(tableau, taille);
     modifier_patient(tableau, taille);
+    tri_insertion_nom(tableau, taille);
     afficher_patient(tableau, taille);
     tri_insertion_nom(tableau, taille);
     afficher_patient(tableau, taille);
@@ -72,25 +74,26 @@ int main() {
     afficher_agregations_dyn(tab, T);
     int taille_consultation = 0;
     int capacite_consultation = 2;
-    consultation *T = malloc(capacite_consultation * sizeof(consultation));
-    inserer_consultation_dyn(&T, &taille_consultation, &capacite_consultation);
-    tri_insertion_medecin_dyn(T, taille_consultation);
-    afficher_consultation_dyn(T, taille_consultation);
-    tri_rapide_cout_dyn(T, 0, taille_consultation - 1);
-    afficher_consultation_dyn(T, taille_consultation);
-    afficher_consultation_dyn(T, taille_consultation);
-    rechercher_consultation_dyn(T, taille_consultation);
-    recherche_par_intervalle_consultation_dyn(T, taille_consultation, 100.0, 500.0);
-    recherche_par_prefixe_consultation_dyn(T, taille_consultation, "Dr.");
-    supprimer_consultation_dyn(&T, &taille_consultation);
-    afficher_consultation_dyn(T, taille_consultation);
-    modifier_consultation_dyn(T, taille_consultation);
-    afficher_consultation_dyn(T, taille_consultation);
-    afficher_agregations_consultation_dyn(T, taille_consultation);
-free(tab);
-free(T);
-afficher_agregations_consultation_dyn(T, taille_consultation);
-sauvegarder_consultations_dyn(T, taille_consultation, "consultations_dyn.bin");
-charger_consultations_dyn(&T, &taille_consultation, "consultations_dyn.bin");
-afficher_consultation_dyn(T, taille_consultation);
+    consultation *tab_consul = malloc(capacite_consultation * sizeof(consultation));
+    inserer_consultation_dyn(&tab_consul, &taille_consultation, &capacite_consultation);
+    tri_insertion_medecin_dyn(tab_consul, taille_consultation);
+    afficher_consultation_dyn(tab_consul, taille_consultation);
+    tri_rapide_cout_dyn(tab_consul, 0, taille_consultation - 1);
+    afficher_consultation_dyn(tab_consul, taille_consultation);
+    rechercher_consultation_dyn(tab_consul, taille_consultation);
+    recherche_par_intervalle_consultation_dyn(tab_consul, taille_consultation, 100.0, 500.0);
+    recherche_par_prefixe_consultation_dyn(tab_consul, taille_consultation, "Dr.");
+    supprimer_consultation_dyn(&tab_consul, &taille_consultation);
+    afficher_consultation_dyn(tab_consul, taille_consultation);
+    modifier_consultation_dyn(tab_consul, taille_consultation);
+    afficher_consultation_dyn(tab_consul, taille_consultation);
+    afficher_agregations_consultation_dyn(tab_consul, taille_consultation);
+afficher_agregations_consultation_dyn(tab_consul, taille_consultation);
+sauvegarder_consultations_dyn(tab_consul, taille_consultation, "consultations_dyn.bin");
+charger_consultations_dyn(&tab_consul, &taille_consultation, "consultations_dyn.bin");
+afficher_consultation_dyn(tab_consul, taille_consultation);
+
+    free(tab);
+    free(tab_consul);
+    return 0;
 }

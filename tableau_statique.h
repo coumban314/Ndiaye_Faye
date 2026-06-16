@@ -3,18 +3,21 @@
 
 void remplir_patient(patient tableau[], int taille);
 void afficher_patient(patient tableau[],int taille);
+void afficher_un_patient(patient p);
 void inserer_Patient(patient tableau[], int *n);
 void rechercher_patient(patient tableau[], int taille );
 void recherche_par_intervalle(patient tableau[], int taille, int age_min, int age_max);
 void recherche_par_prefixe(patient tableau[], int taille, const char* prefixe);
 void supprimer_patient(patient tableau[], int *taille);
 void modifier_patient(patient tableau[], int taille);
+void tri_insertion_nom(patient tableau[], int taille);
 void tri_rapide_age(patient tableau[], int bas, int haut);
 int minimum_age(patient tableau[], int taille);
 int maximum_age(patient tableau[], int taille);
 float moyenne_age(patient tableau[], int taille);
 float mediane_age(patient tableau[], int taille);
 float ecart_type_age(patient tableau[], int taille);
+void afficher_agregations(patient tableau[], int taille);   
 void sauvegarder_patients(patient tableau[], int taille, const char* fichier);
 void charger_patients(patient tableau[], int* taille, const char* fichier);
 void remplir_consultation(consultation tableau[], int taille);
@@ -30,6 +33,9 @@ void recherche_par_prefixe_consultation(consultation tableau[], int taille, cons
 void supprimer_consultation(consultation tableau[], int *taille);
 void afficher_consultation(consultation tableau[], int taille);
 void modifier_consultation(consultation tableau[], int taille);
+void afficher_consultation_dyn(consultation *tableau, int taille);
+void recherche_par_intervalle_consultation_dyn(consultation *tableau, int taille, float cout_min, float cout_max);
+void recherche_par_prefixe_consultation_dyn(consultation *tableau, int taille, const char* prefixe);
 float minimum_cout(consultation tableau[], int taille);
 float maximum_cout(consultation tableau[], int taille);
 float moyenne_cout(consultation tableau[], int taille);

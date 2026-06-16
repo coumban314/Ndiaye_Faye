@@ -1,5 +1,6 @@
 #include "../projet_LMI2/patient.h"
 #include "../projet_LMI2/consultation.h"
+#include<string.h>
 void remplir_patient(patient tableau[], int taille) {
     for (int i = 0; i < taille; i++) {
         tableau[i].id=i+1;
@@ -46,6 +47,19 @@ void remplir_patient(patient tableau[], int taille) {
         printf("  Taille : %.2f\n", tableau[i].taille);
     }
 }
+void afficher_un_patient(patient p) {
+    printf("  ID : %d\n", p.id);
+    printf("  Prenom : %s\n", p.prenom);
+    printf("  Nom : %s\n", p.nom);
+    printf("  Sexe : %c\n", p.sexe);
+    printf("  Adresse : %s\n", p.adresse);
+    printf("  Numero de telephone : %s\n", p.numTel);
+    printf("  age : %d\n", p.age);
+    printf("  Date de naissance : %d/%d/%d\n", p.date_naissance.jour, p.date_naissance.mois, p.date_naissance.annee);
+    printf("  Poids : %.2f\n", p.poids);
+    printf("  Taille : %.2f\n", p.taille);
+}
+
 void inserer_Patient(patient tableau[], int *taille)
 {  
     if(*taille >= 100) {
@@ -190,6 +204,18 @@ void modifier_patient(patient tableau[], int taille) {
             printf("Patient modifier avec succes\n");
         }
     }
+}
+void tri_insertion_nom(patient tableau[], int taille) {
+    for (int i = 1; i < taille; i++) {
+        patient cle = tableau[i];
+        int j = i - 1;
+        while (j >= 0 && strcmp(tableau[j].nom, cle.nom) > 0) {
+            tableau[j + 1] = tableau[j];
+            j--;
+        }
+        tableau[j + 1] = cle;
+    }
+    printf("Patients tries par nom.\n");
 }
     int partition(patient tableau[], int bas, int haut) {
     int pivot = tableau[haut].age;

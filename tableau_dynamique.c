@@ -1,4 +1,5 @@
 #include "tableau_dynamique.h"
+#include<string.h>
 void inserer_patient_dyn(patient **tableau, int *taille, int *capacite) {
     if(*taille >= *capacite) {
         *capacite *= 2; // Doubler la capacité du tableau
@@ -196,6 +197,46 @@ void modifier_patient_dyn(patient *tableau, int taille) {
     }
     printf("Patient non trouve.\n");
 }
+void afficher_consultation_dyn(consultation *tableau, int taille) {
+    printf("\nInformations des consultations :\n");
+    for (int i = 0; i < taille; i++) {
+        printf("Consultation %d :\n", i + 1);
+        printf("  ID : %d\n", tableau[i].id);
+        printf("  Date : %d/%d/%d\n", tableau[i].date_consultation.jour, 
+               tableau[i].date_consultation.mois, tableau[i].date_consultation.annee);
+        printf("  Medecin : %s\n", tableau[i].medecin);
+        printf("  Diagnostic : %s\n", tableau[i].diagnostic);
+        printf("  Traitement : %s\n", tableau[i].traitement);
+        printf("  Duree : %d jours\n", tableau[i].duree);
+        printf("  Cout : %.2f\n", tableau[i].cout);
+    }
+}
+
+void recherche_par_intervalle_consultation_dyn(consultation *tableau, int taille, float cout_min, float cout_max) {
+    int trouve = 0;
+    printf("\nConsultations entre %.2f et %.2f :\n", cout_min, cout_max);
+    for (int i = 0; i < taille; i++) {
+        if (tableau[i].cout >= cout_min && tableau[i].cout <= cout_max) {
+            printf("  ID : %d, Medecin : %s, Cout : %.2f\n", tableau[i].id, tableau[i].medecin, tableau[i].cout);
+            trouve = 1;
+        }
+    }
+    if (!trouve)
+        printf("Aucune consultation trouvee.\n");
+}
+
+void recherche_par_prefixe_consultation_dyn(consultation *tableau, int taille, const char* prefixe) {
+    int trouve = 0;
+    printf("\nConsultations dont le medecin commence par \"%s\" :\n", prefixe);
+    for (int i = 0; i < taille; i++) {
+        if (strncmp(tableau[i].medecin, prefixe, strlen(prefixe)) == 0) {
+            printf("  ID : %d, Medecin : %s, Cout : %.2f\n", tableau[i].id, tableau[i].medecin, tableau[i].cout);
+            trouve = 1;
+        }
+    }
+    if (!trouve)
+        printf("Aucune consultation trouvee.\n");
+}
 int minimum_age_dyn(patient *tableau, int taille) {
     int min = tableau[0].age;
     for (int i = 1; i < taille; i++)
@@ -239,6 +280,14 @@ float ecart_type_age_dyn(patient *tableau, int taille) {
     for (int i = 0; i < taille; i++)
         somme += (tableau[i].age - moy) * (tableau[i].age - moy);
     return sqrt(somme / taille);
+}
+void afficher_agregations_dyn(patient *tableau, int taille) {
+    printf("\n=== Agregations statistiques (age) ===\n");
+    printf("Minimum    : %d\n",   minimum_age_dyn(tableau, taille));
+    printf("Maximum    : %d\n",   maximum_age_dyn(tableau, taille));
+    printf("Moyenne    : %.2f\n", moyenne_age_dyn(tableau, taille));
+    printf("Mediane    : %.2f\n", mediane_age_dyn(tableau, taille));
+    printf("Ecart-type : %.2f\n", ecart_type_age_dyn(tableau, taille));
 }
 void sauvegarder_patients_dyn(patient *tableau, int taille, const char* fichier) {
     FILE* f = fopen(fichier, "wb");
@@ -327,19 +376,6 @@ void tri_rapide_cout_dyn(consultation *tableau, int bas, int haut) {
         int pivot = partition_consultation_dyn(tableau, bas, haut);
         tri_rapide_cout_dyn(tableau, bas, pivot - 1);
         tri_rapide_cout_dyn(tableau, pivot + 1, haut);
-    }
-}
-void afficher_consultation_dyn(consultation *tableau, int taille) {
-    printf("\nInformations des consultations :\n");
-    for (int i = 0; i < taille; i++) {
-        printf("Consultation %d :\n", i + 1);
-        printf("  ID : %d\n", tableau[i].id);
-        printf("  Date de consultation : %d/%d/%d\n", tableau[i].date_consultation.jour, tableau[i].date_consultation.mois, tableau[i].date_consultation.annee);
-        printf("  Medecin : %s\n", tableau[i].medecin);
-        printf("  Diagnostic : %s\n", tableau[i].diagnostic);
-        printf("  Traitement : %s\n", tableau[i].traitement);
-        printf("  Duree : %d jours\n", tableau[i].duree);
-        printf("  Cout : %.2f\n", tableau[i].cout);
     }
 }
 void rechercher_consultation_dyn(consultation *tableau, int taille) {
@@ -483,4 +519,5 @@ void charger_consultations_dyn(consultation **tableau, int* taille, const char* 
     fread(*tableau, sizeof(consultation), *taille, f);
     fclose(f);
     printf("Consultations chargees depuis %s.\n", fichier);
+
 }
