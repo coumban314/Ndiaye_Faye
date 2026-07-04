@@ -1,6 +1,7 @@
 #include "../projet_LMI2/tableau_statique.h"
 #include "tableau_dynamique.h"
 #include <stdlib.h>
+#include "liste_chainee.h"
 
 // ===== MENU TABLEAU STATIQUE PATIENTS =====
 void menu_statique_patient(patient tableau[], int *taille) {
@@ -321,8 +322,197 @@ void menu_dynamique_consultation(consultation **tab_consul, int *taille_consulta
         }
     } while(choix != 0);
 }
+// ===== MENU LISTE CHAINEE PATIENTS =====
+void menu_liste_chainee(ListeChainee* liste) {
+    int choix;
+    do {
+        printf("\n=== MENU LISTE CHAINEE - PATIENTS ===\n");
+        printf("1.  Inserer en tete\n");
+        printf("2.  Inserer en queue\n");
+        printf("3.  Afficher\n");
+        printf("4.  Rechercher par cle\n");
+        printf("5.  Rechercher par intervalle (age)\n");
+        printf("6.  Rechercher par prefixe (nom)\n");
+        printf("7.  Supprimer\n");
+        printf("8.  Modifier\n");
+        printf("9.  Trier par nom\n");
+        printf("10. Agregations statistiques\n");
+        printf("11. Sauvegarder\n");
+        printf("12. Charger\n");
+        printf("0.  Retour au menu principal\n");
+        printf("Votre choix : ");
+        scanf("%d", &choix);
+        getchar();
 
-// ===== MAIN =====
+        switch(choix) {
+            case 1: {
+                patient p;
+                printf("ID : "); scanf("%d", &p.id); getchar();
+                printf("Prenom : "); fgets(p.prenom, 25, stdin);
+                printf("Nom : "); fgets(p.nom, 25, stdin);
+                printf("Age : "); scanf("%d", &p.age); getchar();
+                printf("Sexe (M/F) : "); scanf(" %c", &p.sexe); getchar();
+                printf("Adresse : "); fgets(p.adresse, 50, stdin);
+                printf("Telephone : "); fgets(p.numTel, 15, stdin);
+                printf("Poids : "); scanf("%f", &p.poids); getchar();
+                printf("Taille : "); scanf("%f", &p.taille); getchar();
+                printf("Date naissance (j m a) : ");
+                scanf("%d %d %d", &p.date_naissance.jour, &p.date_naissance.mois, &p.date_naissance.annee);
+                getchar();
+                p.nb_consultations = 0;
+                inserer_tete(liste, p);
+                break;
+            }
+            case 2: {
+                patient p;
+                printf("ID : "); scanf("%d", &p.id); getchar();
+                printf("Prenom : "); fgets(p.prenom, 25, stdin);
+                printf("Nom : "); fgets(p.nom, 25, stdin);
+                printf("Age : "); scanf("%d", &p.age); getchar();
+                printf("Sexe (M/F) : "); scanf(" %c", &p.sexe); getchar();
+                printf("Adresse : "); fgets(p.adresse, 50, stdin);
+                printf("Telephone : "); fgets(p.numTel, 15, stdin);
+                printf("Poids : "); scanf("%f", &p.poids); getchar();
+                printf("Taille : "); scanf("%f", &p.taille); getchar();
+                printf("Date naissance (j m a) : ");
+                scanf("%d %d %d", &p.date_naissance.jour, &p.date_naissance.mois, &p.date_naissance.annee);
+                getchar();
+                p.nb_consultations = 0;
+                inserer_queue(liste, p);
+                break;
+            }
+            case 3:
+                afficher_liste(liste);
+                break;
+            case 4: {
+                int id;
+                printf("ID : "); scanf("%d", &id); getchar();
+                rechercher_liste(liste, id);
+                break;
+            }
+            case 5: {
+                int min, max;
+                printf("Age minimum : "); scanf("%d", &min);
+                printf("Age maximum : "); scanf("%d", &max);
+                recherche_intervalle_liste(liste, min, max);
+                break;
+            }
+            case 6: {
+                char prefixe[25];
+                printf("Debut du nom : "); scanf("%s", prefixe);
+                recherche_prefixe_liste(liste, prefixe);
+                break;
+            }
+            case 7: {
+                int id;
+                printf("ID : "); scanf("%d", &id); getchar();
+                supprimer_liste(liste, id);
+                break;
+            }
+            case 8: {
+                int id;
+                printf("ID : "); scanf("%d", &id); getchar();
+                modifier_liste(liste, id);
+                break;
+            }
+            case 9:
+                tri_insertion_liste(liste);
+                afficher_liste(liste);
+                break;
+            case 10:
+                agregations_liste(liste);
+                break;
+            case 11:
+                sauvegarder_liste(liste, "liste.bin");
+                break;
+            case 12:
+                charger_liste(liste, "liste.bin");
+                afficher_liste(liste);
+                break;
+            case 0:
+                printf("Retour au menu principal...\n");
+                break;
+            default:
+                printf("Choix invalide!\n");
+        }
+    } while(choix != 0);
+}
+
+// ===== MENU LISTE CHAINEE CONSULTATIONS =====
+void menu_liste_chainee_consul(ListeConsultation* liste) {
+    int choix;
+    do {
+        printf("\n=== MENU LISTE CHAINEE - CONSULTATIONS ===\n");
+        printf("1.  Inserer en tete\n");
+        printf("2.  Inserer en queue\n");
+        printf("3.  Afficher\n");
+        printf("4.  Rechercher par cle\n");
+        printf("5.  Supprimer\n");
+        printf("6.  Modifier\n");
+        printf("0.  Retour au menu principal\n");
+        printf("Votre choix : ");
+        scanf("%d", &choix);
+        getchar();
+
+        switch(choix) {
+            case 1: {
+                consultation c;
+                printf("ID : "); scanf("%d", &c.id); getchar();
+                printf("Date (j m a) : ");
+                scanf("%d %d %d", &c.date_consultation.jour, &c.date_consultation.mois, &c.date_consultation.annee);
+                getchar();
+                printf("Medecin : "); fgets(c.medecin, 25, stdin);
+                printf("Diagnostic : "); fgets(c.diagnostic, 100, stdin);
+                printf("Traitement : "); fgets(c.traitement, 100, stdin);
+                printf("Duree : "); scanf("%d", &c.duree); getchar();
+                printf("Cout : "); scanf("%f", &c.cout); getchar();
+                inserer_tete_consul(liste, c);
+                break;
+            }
+            case 2: {
+                consultation c;
+                printf("ID : "); scanf("%d", &c.id); getchar();
+                printf("Date (j m a) : ");
+                scanf("%d %d %d", &c.date_consultation.jour, &c.date_consultation.mois, &c.date_consultation.annee);
+                getchar();
+                printf("Medecin : "); fgets(c.medecin, 25, stdin);
+                printf("Diagnostic : "); fgets(c.diagnostic, 100, stdin);
+                printf("Traitement : "); fgets(c.traitement, 100, stdin);
+                printf("Duree : "); scanf("%d", &c.duree); getchar();
+                printf("Cout : "); scanf("%f", &c.cout); getchar();
+                inserer_queue_consul(liste, c);
+                break;
+            }
+            case 3:
+                afficher_liste_consul(liste);
+                break;
+            case 4: {
+                int id;
+                printf("ID : "); scanf("%d", &id); getchar();
+                rechercher_liste_consul(liste, id);
+                break;
+            }
+            case 5: {
+                int id;
+                printf("ID : "); scanf("%d", &id); getchar();
+                supprimer_liste_consul(liste, id);
+                break;
+            }
+            case 6: {
+                int id;
+                printf("ID : "); scanf("%d", &id); getchar();
+                modifier_liste_consul(liste, id);
+                break;
+            }
+            case 0:
+                printf("Retour au menu principal...\n");
+                break;
+            default:
+                printf("Choix invalide!\n");
+        }
+    } while(choix != 0);
+}
+
 int main() {
     // Déclarations tableau statique
     int taille;
@@ -342,6 +532,12 @@ int main() {
 
     consultation *tab_consul = malloc(2 * sizeof(consultation));
     int taille_consultation = 0, capacite_consultation = 2;
+    // Initialisation de la liste chaînée
+    ListeChainee liste;
+initialiser_liste(&liste);
+
+ListeConsultation liste_consul_lc;
+initialiser_liste_consul(&liste_consul_lc);
 
     // Menu principal
     int choix;
@@ -353,6 +549,8 @@ int main() {
         printf("2. Tableau statique  - Consultations\n");
         printf("3. Tableau dynamique - Patients\n");
         printf("4. Tableau dynamique - Consultations\n");
+        printf("5. Liste chainee     - Patients\n");
+        printf("6. Liste chainee     - Consultations\n");
         printf("0. Quitter\n");
         printf("Votre choix : ");
         scanf("%d", &choix);
@@ -371,6 +569,10 @@ int main() {
             case 4:
                 menu_dynamique_consultation(&tab_consul, &taille_consultation, &capacite_consultation);
                 break;
+            case 5: menu_liste_chainee(&liste); 
+            break;
+            case 6: menu_liste_chainee_consul(&liste_consul_lc);
+             break;
             case 0:
                 printf("Au revoir!\n");
                 break;
@@ -378,8 +580,11 @@ int main() {
                 printf("Choix invalide!\n");
         }
     } while(choix != 0);
-
-    free(tab);
-    free(tab_consul);
+    
+// Liberer memoire
+free(tab);
+free(tab_consul);
+liberer_liste(&liste);
+liberer_liste_consul(&liste_consul_lc);
     return 0;
 }
