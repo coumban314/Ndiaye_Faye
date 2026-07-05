@@ -3,26 +3,165 @@
 #include <stdlib.h>
 #include "liste_chainee.h"
 
+// ===== FONCTIONS D'AFFICHAGE DES MENUS =====
+
+void afficher_menu_principal() {
+    printf("\n");
+    printf("  +==========================================+\n");
+    printf("  |           MENU PRINCIPAL                 |\n");
+    printf("  |    Gestion de Dossiers Medicaux          |\n");
+    printf("  +==========================================+\n");
+    printf("  |  1. Tableau statique  - Patients         |\n");
+    printf("  |  2. Tableau statique  - Consultations    |\n");
+    printf("  |  3. Tableau dynamique - Patients         |\n");
+    printf("  |  4. Tableau dynamique - Consultations    |\n");
+    printf("  |  5. Liste chainee     - Patients         |\n");
+    printf("  |  6. Liste chainee     - Consultations    |\n");
+    printf("  +------------------------------------------+\n");
+    printf("  |  0. Quitter                              |\n");
+    printf("  +==========================================+\n");
+    printf("  Votre choix : ");
+}
+
+void afficher_menu_statique_patient() {
+    printf("\n");
+    printf("  +==========================================+\n");
+    printf("  |     TABLEAU STATIQUE - PATIENTS          |\n");
+    printf("  +==========================================+\n");
+    printf("  |  1.  Remplir                             |\n");
+    printf("  |  2.  Afficher                            |\n");
+    printf("  |  3.  Inserer                             |\n");
+    printf("  |  4.  Rechercher par cle                  |\n");
+    printf("  |  5.  Rechercher par intervalle (age)     |\n");
+    printf("  |  6.  Rechercher par prefixe (nom)        |\n");
+    printf("  |  7.  Supprimer                           |\n");
+    printf("  |  8.  Modifier                            |\n");
+    printf("  |  9.  Trier par nom (insertion)           |\n");
+    printf("  |  10. Trier par age (rapide)              |\n");
+    printf("  |  11. Agregations statistiques            |\n");
+    printf("  |  12. Sauvegarder                         |\n");
+    printf("  |  13. Charger                             |\n");
+    printf("  +------------------------------------------+\n");
+    printf("  |  0.  Retour au menu principal            |\n");
+    printf("  +==========================================+\n");
+    printf("  Votre choix : ");
+}
+
+void afficher_menu_statique_consultation() {
+    printf("\n");
+    printf("  +==========================================+\n");
+    printf("  |   TABLEAU STATIQUE - CONSULTATIONS       |\n");
+    printf("  +==========================================+\n");
+    printf("  |  1.  Remplir                             |\n");
+    printf("  |  2.  Afficher                            |\n");
+    printf("  |  3.  Inserer                             |\n");
+    printf("  |  4.  Rechercher par cle                  |\n");
+    printf("  |  5.  Rechercher par intervalle (cout)    |\n");
+    printf("  |  6.  Rechercher par prefixe (medecin)    |\n");
+    printf("  |  7.  Supprimer                           |\n");
+    printf("  |  8.  Modifier                            |\n");
+    printf("  |  9.  Trier par medecin (insertion)       |\n");
+    printf("  |  10. Trier par cout (rapide)             |\n");
+    printf("  |  11. Agregations statistiques            |\n");
+    printf("  |  12. Sauvegarder                         |\n");
+    printf("  |  13. Charger                             |\n");
+    printf("  +------------------------------------------+\n");
+    printf("  |  0.  Retour au menu principal            |\n");
+    printf("  +==========================================+\n");
+    printf("  Votre choix : ");
+}
+
+void afficher_menu_dynamique_patient() {
+    printf("\n");
+    printf("  +==========================================+\n");
+    printf("  |     TABLEAU DYNAMIQUE - PATIENTS         |\n");
+    printf("  +==========================================+\n");
+    printf("  |  1.  Inserer                             |\n");
+    printf("  |  2.  Afficher                            |\n");
+    printf("  |  3.  Rechercher par cle                  |\n");
+    printf("  |  4.  Rechercher par intervalle (age)     |\n");
+    printf("  |  5.  Rechercher par prefixe (nom)        |\n");
+    printf("  |  6.  Supprimer                           |\n");
+    printf("  |  7.  Modifier                            |\n");
+    printf("  |  8.  Trier par nom (insertion)           |\n");
+    printf("  |  9.  Trier par age (rapide)              |\n");
+    printf("  |  10. Agregations statistiques            |\n");
+    printf("  |  11. Sauvegarder                         |\n");
+    printf("  |  12. Charger                             |\n");
+    printf("  +------------------------------------------+\n");
+    printf("  |  0.  Retour au menu principal            |\n");
+    printf("  +==========================================+\n");
+    printf("  Votre choix : ");
+}
+
+void afficher_menu_dynamique_consultation() {
+    printf("\n");
+    printf("  +==========================================+\n");
+    printf("  |  TABLEAU DYNAMIQUE - CONSULTATIONS       |\n");
+    printf("  +==========================================+\n");
+    printf("  |  1.  Inserer                             |\n");
+    printf("  |  2.  Afficher                            |\n");
+    printf("  |  3.  Rechercher par cle                  |\n");
+    printf("  |  4.  Rechercher par intervalle (cout)    |\n");
+    printf("  |  5.  Rechercher par prefixe (medecin)    |\n");
+    printf("  |  6.  Supprimer                           |\n");
+    printf("  |  7.  Modifier                            |\n");
+    printf("  |  8.  Trier par medecin (insertion)       |\n");
+    printf("  |  9.  Trier par cout (rapide)             |\n");
+    printf("  |  10. Agregations statistiques            |\n");
+    printf("  |  11. Sauvegarder                         |\n");
+    printf("  |  12. Charger                             |\n");
+    printf("  +------------------------------------------+\n");
+    printf("  |  0.  Retour au menu principal            |\n");
+    printf("  +==========================================+\n");
+    printf("  Votre choix : ");
+}
+
+void afficher_menu_liste_patient() {
+    printf("\n");
+    printf("  +==========================================+\n");
+    printf("  |       LISTE CHAINEE - PATIENTS           |\n");
+    printf("  +==========================================+\n");
+    printf("  |  1.  Inserer en tete                     |\n");
+    printf("  |  2.  Inserer en queue                    |\n");
+    printf("  |  3.  Afficher                            |\n");
+    printf("  |  4.  Rechercher par cle                  |\n");
+    printf("  |  5.  Rechercher par intervalle (age)     |\n");
+    printf("  |  6.  Rechercher par prefixe (nom)        |\n");
+    printf("  |  7.  Supprimer                           |\n");
+    printf("  |  8.  Modifier                            |\n");
+    printf("  |  9.  Trier par nom                       |\n");
+    printf("  |  10. Agregations statistiques            |\n");
+    printf("  |  11. Sauvegarder                         |\n");
+    printf("  |  12. Charger                             |\n");
+    printf("  +------------------------------------------+\n");
+    printf("  |  0.  Retour au menu principal            |\n");
+    printf("  +==========================================+\n");
+    printf("  Votre choix : ");
+}
+
+void afficher_menu_liste_consultation() {
+    printf("\n");
+    printf("  +==========================================+\n");
+    printf("  |    LISTE CHAINEE - CONSULTATIONS         |\n");
+    printf("  +==========================================+\n");
+    printf("  |  1.  Inserer en tete                     |\n");
+    printf("  |  2.  Inserer en queue                    |\n");
+    printf("  |  3.  Afficher                            |\n");
+    printf("  |  4.  Rechercher par cle                  |\n");
+    printf("  |  5.  Supprimer                           |\n");
+    printf("  |  6.  Modifier                            |\n");
+    printf("  +------------------------------------------+\n");
+    printf("  |  0.  Retour au menu principal            |\n");
+    printf("  +==========================================+\n");
+    printf("  Votre choix : ");
+}
+
 // ===== MENU TABLEAU STATIQUE PATIENTS =====
 void menu_statique_patient(patient tableau[], int *taille) {
     int choix;
     do {
-        printf("\n=== MENU TABLEAU STATIQUE - PATIENTS ===\n");
-        printf("1.  Remplir\n");
-        printf("2.  Afficher\n");
-        printf("3.  Inserer\n");
-        printf("4.  Rechercher par cle\n");
-        printf("5.  Rechercher par intervalle (age)\n");
-        printf("6.  Rechercher par prefixe (nom)\n");
-        printf("7.  Supprimer\n");
-        printf("8.  Modifier\n");
-        printf("9.  Trier par nom (insertion)\n");
-        printf("10. Trier par age (rapide)\n");
-        printf("11. Agregations statistiques\n");
-        printf("12. Sauvegarder\n");
-        printf("13. Charger\n");
-        printf("0.  Retour au menu principal\n");
-        printf("Votre choix : ");
+        afficher_menu_statique_patient();
         scanf("%d", &choix);
         getchar();
 
@@ -77,10 +216,10 @@ void menu_statique_patient(patient tableau[], int *taille) {
                 afficher_patient(tableau, *taille);
                 break;
             case 0:
-                printf("Retour au menu principal...\n");
+                printf("  Retour au menu principal...\n");
                 break;
             default:
-                printf("Choix invalide!\n");
+                printf("  Choix invalide!\n");
         }
     } while(choix != 0);
 }
@@ -89,22 +228,7 @@ void menu_statique_patient(patient tableau[], int *taille) {
 void menu_statique_consultation(consultation tableau[], int *taille) {
     int choix;
     do {
-        printf("\n=== MENU TABLEAU STATIQUE - CONSULTATIONS ===\n");
-        printf("1.  Remplir\n");
-        printf("2.  Afficher\n");
-        printf("3.  Inserer\n");
-        printf("4.  Rechercher par cle\n");
-        printf("5.  Rechercher par intervalle (cout)\n");
-        printf("6.  Rechercher par prefixe (medecin)\n");
-        printf("7.  Supprimer\n");
-        printf("8.  Modifier\n");
-        printf("9.  Trier par medecin (insertion)\n");
-        printf("10. Trier par cout (rapide)\n");
-        printf("11. Agregations statistiques\n");
-        printf("12. Sauvegarder\n");
-        printf("13. Charger\n");
-        printf("0.  Retour au menu principal\n");
-        printf("Votre choix : ");
+        afficher_menu_statique_consultation();
         scanf("%d", &choix);
         getchar();
 
@@ -159,10 +283,10 @@ void menu_statique_consultation(consultation tableau[], int *taille) {
                 afficher_consultation(tableau, *taille);
                 break;
             case 0:
-                printf("Retour au menu principal...\n");
+                printf("  Retour au menu principal...\n");
                 break;
             default:
-                printf("Choix invalide!\n");
+                printf("  Choix invalide!\n");
         }
     } while(choix != 0);
 }
@@ -171,21 +295,7 @@ void menu_statique_consultation(consultation tableau[], int *taille) {
 void menu_dynamique_patient(patient **tab, int *T, int *capacite) {
     int choix;
     do {
-        printf("\n=== MENU TABLEAU DYNAMIQUE - PATIENTS ===\n");
-        printf("1.  Inserer\n");
-        printf("2.  Afficher\n");
-        printf("3.  Rechercher par cle\n");
-        printf("4.  Rechercher par intervalle (age)\n");
-        printf("5.  Rechercher par prefixe (nom)\n");
-        printf("6.  Supprimer\n");
-        printf("7.  Modifier\n");
-        printf("8.  Trier par nom (insertion)\n");
-        printf("9.  Trier par age (rapide)\n");
-        printf("10. Agregations statistiques\n");
-        printf("11. Sauvegarder\n");
-        printf("12. Charger\n");
-        printf("0.  Retour au menu principal\n");
-        printf("Votre choix : ");
+        afficher_menu_dynamique_patient();
         scanf("%d", &choix);
         getchar();
 
@@ -237,10 +347,10 @@ void menu_dynamique_patient(patient **tab, int *T, int *capacite) {
                 afficher_patient_dyn(*tab, *T);
                 break;
             case 0:
-                printf("Retour au menu principal...\n");
+                printf("  Retour au menu principal...\n");
                 break;
             default:
-                printf("Choix invalide!\n");
+                printf("  Choix invalide!\n");
         }
     } while(choix != 0);
 }
@@ -249,21 +359,7 @@ void menu_dynamique_patient(patient **tab, int *T, int *capacite) {
 void menu_dynamique_consultation(consultation **tab_consul, int *taille_consultation, int *capacite_consultation) {
     int choix;
     do {
-        printf("\n=== MENU TABLEAU DYNAMIQUE - CONSULTATIONS ===\n");
-        printf("1.  Inserer\n");
-        printf("2.  Afficher\n");
-        printf("3.  Rechercher par cle\n");
-        printf("4.  Rechercher par intervalle (cout)\n");
-        printf("5.  Rechercher par prefixe (medecin)\n");
-        printf("6.  Supprimer\n");
-        printf("7.  Modifier\n");
-        printf("8.  Trier par medecin (insertion)\n");
-        printf("9.  Trier par cout (rapide)\n");
-        printf("10. Agregations statistiques\n");
-        printf("11. Sauvegarder\n");
-        printf("12. Charger\n");
-        printf("0.  Retour au menu principal\n");
-        printf("Votre choix : ");
+        afficher_menu_dynamique_consultation();
         scanf("%d", &choix);
         getchar();
 
@@ -315,32 +411,19 @@ void menu_dynamique_consultation(consultation **tab_consul, int *taille_consulta
                 afficher_consultation_dyn(*tab_consul, *taille_consultation);
                 break;
             case 0:
-                printf("Retour au menu principal...\n");
+                printf("  Retour au menu principal...\n");
                 break;
             default:
-                printf("Choix invalide!\n");
+                printf("  Choix invalide!\n");
         }
     } while(choix != 0);
 }
+
 // ===== MENU LISTE CHAINEE PATIENTS =====
 void menu_liste_chainee(ListeChainee* liste) {
     int choix;
     do {
-        printf("\n=== MENU LISTE CHAINEE - PATIENTS ===\n");
-        printf("1.  Inserer en tete\n");
-        printf("2.  Inserer en queue\n");
-        printf("3.  Afficher\n");
-        printf("4.  Rechercher par cle\n");
-        printf("5.  Rechercher par intervalle (age)\n");
-        printf("6.  Rechercher par prefixe (nom)\n");
-        printf("7.  Supprimer\n");
-        printf("8.  Modifier\n");
-        printf("9.  Trier par nom\n");
-        printf("10. Agregations statistiques\n");
-        printf("11. Sauvegarder\n");
-        printf("12. Charger\n");
-        printf("0.  Retour au menu principal\n");
-        printf("Votre choix : ");
+        afficher_menu_liste_patient();
         scanf("%d", &choix);
         getchar();
 
@@ -430,10 +513,10 @@ void menu_liste_chainee(ListeChainee* liste) {
                 afficher_liste(liste);
                 break;
             case 0:
-                printf("Retour au menu principal...\n");
+                printf("  Retour au menu principal...\n");
                 break;
             default:
-                printf("Choix invalide!\n");
+                printf("  Choix invalide!\n");
         }
     } while(choix != 0);
 }
@@ -442,15 +525,7 @@ void menu_liste_chainee(ListeChainee* liste) {
 void menu_liste_chainee_consul(ListeConsultation* liste) {
     int choix;
     do {
-        printf("\n=== MENU LISTE CHAINEE - CONSULTATIONS ===\n");
-        printf("1.  Inserer en tete\n");
-        printf("2.  Inserer en queue\n");
-        printf("3.  Afficher\n");
-        printf("4.  Rechercher par cle\n");
-        printf("5.  Supprimer\n");
-        printf("6.  Modifier\n");
-        printf("0.  Retour au menu principal\n");
-        printf("Votre choix : ");
+        afficher_menu_liste_consultation();
         scanf("%d", &choix);
         getchar();
 
@@ -505,19 +580,23 @@ void menu_liste_chainee_consul(ListeConsultation* liste) {
                 break;
             }
             case 0:
-                printf("Retour au menu principal...\n");
+                printf("  Retour au menu principal...\n");
                 break;
             default:
-                printf("Choix invalide!\n");
+                printf("  Choix invalide!\n");
         }
     } while(choix != 0);
 }
 
+// ===== MAIN =====
 int main() {
     // Déclarations tableau statique
     int taille;
     do {
-        printf("Entrez le nombre de patients : ");
+        printf("\n  +==========================================+\n");
+        printf("  |    SYSTEME DE GESTION MEDICALE           |\n");
+        printf("  +==========================================+\n");
+        printf("  Entrez le nombre de patients (1-100) : ");
         scanf("%d", &taille);
         getchar();
     } while (taille <= 0 || taille > 100);
@@ -532,27 +611,18 @@ int main() {
 
     consultation *tab_consul = malloc(2 * sizeof(consultation));
     int taille_consultation = 0, capacite_consultation = 2;
-    // Initialisation de la liste chaînée
-    ListeChainee liste;
-initialiser_liste(&liste);
 
-ListeConsultation liste_consul_lc;
-initialiser_liste_consul(&liste_consul_lc);
+    // Initialisation liste chaînée
+    ListeChainee liste;
+    initialiser_liste(&liste);
+
+    ListeConsultation liste_consul_lc;
+    initialiser_liste_consul(&liste_consul_lc);
 
     // Menu principal
     int choix;
     do {
-        printf("\n=============================\n");
-        printf("=== MENU PRINCIPAL ===\n");
-        printf("=============================\n");
-        printf("1. Tableau statique  - Patients\n");
-        printf("2. Tableau statique  - Consultations\n");
-        printf("3. Tableau dynamique - Patients\n");
-        printf("4. Tableau dynamique - Consultations\n");
-        printf("5. Liste chainee     - Patients\n");
-        printf("6. Liste chainee     - Consultations\n");
-        printf("0. Quitter\n");
-        printf("Votre choix : ");
+        afficher_menu_principal();
         scanf("%d", &choix);
         getchar();
 
@@ -569,22 +639,24 @@ initialiser_liste_consul(&liste_consul_lc);
             case 4:
                 menu_dynamique_consultation(&tab_consul, &taille_consultation, &capacite_consultation);
                 break;
-            case 5: menu_liste_chainee(&liste); 
-            break;
-            case 6: menu_liste_chainee_consul(&liste_consul_lc);
-             break;
+            case 5:
+                menu_liste_chainee(&liste);
+                break;
+            case 6:
+                menu_liste_chainee_consul(&liste_consul_lc);
+                break;
             case 0:
-                printf("Au revoir!\n");
+                printf("\n  Au revoir !\n");
                 break;
             default:
-                printf("Choix invalide!\n");
+                printf("  Choix invalide!\n");
         }
     } while(choix != 0);
-    
-// Liberer memoire
-free(tab);
-free(tab_consul);
-liberer_liste(&liste);
-liberer_liste_consul(&liste_consul_lc);
+
+    // Liberer memoire
+    free(tab);
+    free(tab_consul);
+    liberer_liste(&liste);
+    liberer_liste_consul(&liste_consul_lc);
     return 0;
 }
