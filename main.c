@@ -593,12 +593,20 @@ int main() {
     // Déclarations tableau statique
     int taille;
     do {
-        printf("\n  +==========================================+\n");
-        printf("  |    SYSTEME DE GESTION MEDICALE           |\n");
-        printf("  +==========================================+\n");
+        printf("+==============================================================+\n");
+        printf("| %-60s |\n", "BIENVENUE DANS VOTRE SYSTEME MEDICAL");
+        printf("+==============================================================+\n");
+        printf("| Realise par : %-45s |\n", "Coumba Ndiaye & Moussa Faye");
+        printf("| Encadre par : %-45s |\n", "Dr Abdoulaye Diallo");
+        printf("| Universite  : %-45s |\n", "Universite Iba Der Thiam de Thies");
+        printf("| UFR         : %-45s |\n", "Sciences et Technologies");
+        printf("| Filiere     : %-45s |\n", "Licence 2 Math et Info");
+        printf("| Annee       : %-45s |\n", "2025-2026");
+        printf("+==============================================================+\n");
         printf("  Entrez le nombre de patients (1-100) : ");
         scanf("%d", &taille);
-        getchar();
+        printf("\n");
+        while (getchar() != '\n');
     } while (taille <= 0 || taille > 100);
 
     patient tableau[100];

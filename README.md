@@ -9,9 +9,9 @@ Structures de Données (ASD)** de la Licence 2 Mathématiques-Informatique
 à l'Université Iba Der Thiam de Thiès.
 
 L'objectif est d'étudier et de comparer les performances des 
-**tableaux statiques** et **tableaux dynamiques** pour la gestion 
-d'un système de dossiers médicaux comprenant des patients et leurs 
-consultations.
+**tableaux statiques**, **tableaux dynamiques** et **listes chaînées** 
+pour la gestion d'un système de dossiers médicaux comprenant des 
+patients et leurs consultations.
 
 ## Organisation du projet
 
@@ -22,12 +22,20 @@ consultations.
 | `consultation.c` / `consultation.h` | Définition de la structure consultation |
 | `tableau_statique.c` / `tableau_statique.h` | Tableau statique |
 | `tableau_dynamique.c` / `tableau_dynamique.h` | Tableau dynamique |
+| `liste_chainee.c` / `liste_chainee.h` | Liste chaînée |
 | `benchmark.c` | Mesures de performances |
 | `courbes.py` | Génération des courbes avec Python |
 | `resultats.csv` | Résultats des benchmarks |
-| `courbe_insertion.png` | Courbe des temps d'insertion |
-| `courbe_tri.png` | Courbe des temps de tri |
+| `courbe_insertion_lineaire.png` | Courbe insertion échelle linéaire |
+| `courbe_insertion_log.png` | Courbe insertion échelle logarithmique |
+| `courbe_recherche.png` | Courbe des temps de recherche |
+| `courbe_tri_insertion_lineaire.png` | Courbe tri par insertion |
+| `courbe_tri_insertion_log.png` | Courbe tri par insertion log |
+| `courbe_tri_rapide_lineaire.png` | Courbe tri rapide |
+| `courbe_theorique_vs_empirique.png` | Courbe théorique vs empirique |
+| `courbe_histogramme.png` | Histogramme comparatif |
 | `Makefile` | Automatisation de la compilation |
+| `lien_github.txt` | Lien vers le dépôt GitHub |
 
 ## Prérequis
 
@@ -39,7 +47,7 @@ consultations.
 Avec GCC :
 
 ```bash
-gcc main.c tableau_statique.c tableau_dynamique.c -o test -lm
+gcc main.c tableau_statique.c tableau_dynamique.c liste_chainee.c -o test -lm
 ```
 
 Ou avec le Makefile :
@@ -63,17 +71,38 @@ Sous Windows :
 ```
 
 ## Utilisation
-=============================
 
-=== MENU PRINCIPAL ===
+Le programme affiche un **écran d'accueil** puis un **menu principal interactif** :
++==========================================+
+|        UNIVERSITE IBA DER THIAM          |
+|              DE THIES                    |
+|    UFR Sciences et Technologies          |
++==========================================+
+|   Algorithmique et Structures de         |
+|            Donnees - LMI 2               |
++==========================================+
+|  Projet : Gestion de Dossiers Medicaux   |
++------------------------------------------+
+|  Realise par :                           |
+|    - Coumba NDIAYE                       |
+|    - Moussa FAYE                         |
++------------------------------------------+
+|  Encadrant : Dr Abdoulaye DIALLO         |
++==========================================+
++==========================================+
+|           MENU PRINCIPAL                 |
+|    Gestion de Dossiers Medicaux          |
++==========================================+
+|  1. Tableau statique  - Patients         |
+|  2. Tableau statique  - Consultations    |
+|  3. Tableau dynamique - Patients         |
+|  4. Tableau dynamique - Consultations    |
+|  5. Liste chainee     - Patients         |
+|  6. Liste chainee     - Consultations    |
++------------------------------------------+
+|  0. Quitter                              |
++==========================================+
 
-1-Tableau statique  - Patients
-2-Tableau statique  - Consultations
-3-Tableau dynamique - Patients
-4-Tableau dynamique - Consultations
-5-Quitter
-
-Le programme affiche un **menu principal interactif** :
 Chaque option ouvre un sous-menu avec toutes les opérations disponibles :
 insertion, affichage, recherche (clé, intervalle, préfixe), suppression, 
 modification, tri, agrégations statistiques et persistance.
@@ -83,7 +112,7 @@ modification, tri, agrégations statistiques et persistance.
 Pour générer les mesures de performances :
 
 ```bash
-gcc benchmark.c tableau_statique.c tableau_dynamique.c -o benchmark -lm
+gcc benchmark.c tableau_statique.c tableau_dynamique.c liste_chainee.c -o benchmark -lm
 ./benchmark
 ```
 
@@ -96,18 +125,18 @@ python courbes.py
 
 ## Opérations implémentées
 
-| Opération | Tableau statique | Tableau dynamique |
-|---|---|---|
-| Insertion 
-| Recherche par clé 
-| Recherche par intervalle 
-| Recherche par préfixe 
-| Suppression 
-| Modification 
-| Tri par insertion 
-| Tri rapide 
-| Agrégations statistiques
-| Persistance binaire 
+| Opération | Tableau statique | Tableau dynamique | Liste chaînée |
+|---|---|---|---|
+| Insertion | ✅ | ✅ | ✅ (tête et queue) |
+| Recherche par clé | ✅ | ✅ | ✅ |
+| Recherche par intervalle | ✅ | ✅ | ✅ |
+| Recherche par préfixe | ✅ | ✅ | ✅ |
+| Suppression | ✅ | ✅ | ✅ |
+| Modification | ✅ | ✅ | ✅ |
+| Tri par insertion | ✅ | ✅ | ✅ |
+| Tri rapide | ✅ | ✅ | ❌ |
+| Agrégations statistiques | ✅ | ✅ | ✅ |
+| Persistance binaire | ✅ | ✅ | ✅ |
 
 ## Auteurs
 

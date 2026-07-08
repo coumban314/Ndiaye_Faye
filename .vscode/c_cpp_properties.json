@@ -10,7 +10,7 @@
                 ""
             ],
             "includePath": [
-                "${workspaceFolder}/include"
+                "${workspaceFolder}"
             ]
         }
     ],
