@@ -49,10 +49,3 @@ patient creer_patient() {
     printf("Patient cree avec succes !\n");
     return p;
 }
-
-// ===== AFFICHER UN PATIENT =====
-void afficher_patient(patient p) {
-    printf("\n--- Fiche Patient ---\n");
-    printf("ID : %d\n", p.id);
-    printf("Nom Complet : %s %s\n", p.prenom, p.nom);
-    printf("Sexe : %c\n", p.se
