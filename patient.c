@@ -1,4 +1,4 @@
-#include "patient.c"
+#include "patient.h"
 #include <stdio.h>
 #include <string.h>
 
