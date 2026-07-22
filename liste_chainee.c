@@ -1,5 +1,8 @@
 #include "liste_chainee.h"
-
+#include "stdlib.h"
+#include"string.h"
+#include"math.h"    
+#include"stdio.h"
 // ===== INITIALISATION =====
 void initialiser_liste(ListeChainee* liste) {
     liste->tete = NULL;
